@@ -13,22 +13,19 @@ if (isset($_POST["add_to_cart"])) {
         # getting the array id
         $item_array_id = array_column($_SESSION["shopping_cart"], "item_id");
         # checking if the item is added 
-        if (!in_array($_GET["id"], $item_array_id)) {      
-            #counts the amount objects you put in the shopping cart
-            $count = count($_SESSION["shopping_cart"]);
 
+            #counts the amount objects you put in the shopping cart
+            $count = count($_SESSION["shopping_cart"]);  
             $item_array = array(
                 'item_id'            =>    $_GET["id"],
                 'item_name'            =>    $_POST["hidden_name"],
                 'item_price'        =>    $_POST["hidden_price"],
-                'item_quantity'        =>    $_POST["quantity"]
+                'item_quantity'        =>    $_SESSION['shopping_cart'][$_GET['id']]['item_quantity'] + $_POST["quantity"]
             );
-            $_SESSION["shopping_cart"][$count] = $item_array;
+            $_SESSION["shopping_cart"][$item_array['item_id']] = $item_array;
             $_SESSION['Added'] = "Item added to shopingcart";
 
-        } else {
-            $_SESSION['Already added'] = "Item already added to shopingcart";
-        }
+    
     } else {
         $item_array = array(
             'item_id'            =>    $_GET["id"],
